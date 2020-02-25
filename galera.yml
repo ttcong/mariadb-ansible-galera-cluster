@@ -6,3 +6,6 @@
     - { role: galera_packages, tags: [ 'setup', 'packages' ] }
     - { role: galera_privs, tags: [ 'auth' ] }
     - { role: galera_conf, tags: [ 'config' ] }
+  environment:
+    http_proxy: http://10.0.191.5:3129
+    https_proxy: http://10.0.191.5:3129

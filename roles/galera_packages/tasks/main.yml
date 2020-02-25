@@ -1,26 +1,28 @@
 ---
 - name: Install MariaDB server packages
-  apt: name={{ item }} state=present
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present update_cache=yes
   with_items:
-    - MariaDB-client
-    - MariaDB-server
-    - galera
-    - libmariadbclient18
+    - mariadb-client
+    - mariadb-server
+    - mariadb-client-core-{{ mariadb_release }}
+    - galera-3
     - rsync
 
-- name: Install percona-xtrabackup packages
-  apt: name={{ item }} state=present
-  with_items:
-    - percona-xtrabackup
-    - socat
-  when: "mariadb_release | version_compare('10.1', '<')"
-
 - name: Install mariadb-backup packages
+  become: yes
+  become_user: root
   apt: name={{ item }} state=present
   with_items:
     - mariadb-backup
     - socat
-  when: "mariadb_release | version_compare('10.1', '>=')"
 
 - name: Install MySQL-python
-  apt: name=MySQL-python state=present
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - python-mysqldb
+    - python-pymysql
+

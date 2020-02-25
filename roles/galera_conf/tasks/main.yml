@@ -1,5 +1,16 @@
 ---
 - name: Add galera configuration
-  template: src=server.cnf.j2 dest=/etc/my.cnf.d/server.cnf
-    owner=root group=root mode=0644
+  become: yes
+  become_user: root
+  template: src=server.cnf.j2 dest=/etc/mysql/mariadb.conf.d/galera.cnf
+    owner=mysql group=mysql mode=0644
   notify: Restart MariaDB Galera cluster
+
+- name: Change owner mysql to mysql user
+  become: yes
+  become_user: root
+  file:
+    path: /etc/mysql
+    owner: mysql
+    group: mysql
+    mode: 0644

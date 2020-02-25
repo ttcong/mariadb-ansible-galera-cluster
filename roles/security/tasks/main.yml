@@ -1,7 +1,7 @@
----
-- name: Start and enable ufw
-  systemd: name=ufw state=stopped enabled=no
-
+#---
+#- name: Start and enable ufw
+#  systemd: name=ufw state=stopped enabled=no
+#
 # - name: Open firewall for external access to MySQL
 #   ufw: service=mysql permanent=true immediate=true state=enabled
 

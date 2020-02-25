@@ -1,14 +1,22 @@
 ---
 - name: Install software-properties-common
-  apt: name={{ item }} state=present
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present update_cache=yes
   with_items:
     - software-properties-common
 
 - name: Add MariaDB keys
+  become: yes
+  become_user: root
   apt_key: 
     url: https://mariadb.org/mariadb_release_signing_key.asc
     state: present
 
 - name: Add MariaDB repo
+  become: yes
+  become_user: root  
   template: src=sources.list.d/mariadb.list.j2 dest=/etc/apt/sources.list.d/mariadb.list
     owner=root group=root mode=0644
+
+

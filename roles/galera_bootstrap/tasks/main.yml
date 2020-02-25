@@ -9,4 +9,6 @@
 
 - name: Restart the other MariaDB Galera cluster nodes
   systemd: name=mariadb state=restarted
+  async: 45
+  poll: 0
   when: inventory_hostname != groups['galera_cluster'][0]
