@@ -4,7 +4,7 @@
 CLUSTER_SIZE = 3
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "centos/7"
+  config.vm.box = "ubuntu/xenial64"
 
   # default to libvirt provider if possible
   config.vm.provider "libvirt"
