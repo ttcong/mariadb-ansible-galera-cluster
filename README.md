@@ -6,8 +6,7 @@ configuration management for MariaDB Galera cluster
 These roles allow you to automatically setup a MariaDB Galera cluster with sane
 default settings.
 
-These roles are currently only tested for RHEL/CentOS 7, but most tasks can be
-reused for Debian or SUSE based distributions.
+Tested in Ubuntu 16.04.
 
 Prerequisites
 -------------
