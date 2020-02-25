@@ -1,16 +1,16 @@
 ---
-- name: Start and enable firewalld
-  service: name=firewalld state=started enabled=yes
+- name: Start and enable ufw
+  systemd: name=ufw state=stopped enabled=no
 
-- name: Open firewall for external access to MySQL
-  firewalld: service=mysql permanent=true immediate=true state=enabled
+# - name: Open firewall for external access to MySQL
+#   ufw: service=mysql permanent=true immediate=true state=enabled
 
-- name: Open Galera ports on firewall
-  firewalld: port={{ item }} permanent=true immediate=true state=enabled
-  with_items:
-    - 4444/tcp
-    - 4567/tcp
-    - 4568/tcp
+# - name: Open Galera ports on firewall
+#   ufw: from_port={{ item }} permanent=true immediate=true state=enabled
+#   with_items:
+#     - 4444/tcp
+#     - 4567/tcp
+#     - 4568/tcp
 
-- name: Disable SELinux
-  selinux: policy=targeted state=permissive
+# - name: Disable SELinux
+#   selinux: policy=targeted state=permissive

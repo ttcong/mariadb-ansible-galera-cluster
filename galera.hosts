@@ -1,2 +1,5 @@
 [galera_cluster]
-galera-db-[01:03] ansible_user=root
+vdb-galera01 ansible_ssh_host=10.0.191.10 ansible_user=stackops ansible_ssh_port=234 ansible_ssh_pass=abc123456
+vdb-galera02 ansible_ssh_host=10.0.191.11 ansible_user=stackops ansible_ssh_port=234 ansible_ssh_pass=abc123456
+vdb-galera03 ansible_ssh_host=10.0.191.12 ansible_user=stackops ansible_ssh_port=234 ansible_ssh_pass=abc123456
+
