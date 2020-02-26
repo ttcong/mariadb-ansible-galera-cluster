@@ -6,13 +6,5 @@ pid_file = /var/run/mysqld/mysqld.pid
 socket = /var/run/mysqld/mysqld.sock
 default_storage_engine = innodb
 datadir = /var/lib/mysql
-!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
 
-[client]
-port = 3306
-socket = /var/run/mysqld/mysqld.sock
-
-[mysqldump]
-quick
-quote-names
-max_allowed_packet      = 16M
