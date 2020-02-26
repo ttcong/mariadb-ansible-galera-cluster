@@ -1,5 +1,5 @@
 ---
-galera_server_id: 11234
+galera_server_id: 9999
 galera_wsrep_cluster_name: galera_cluster01
 bootstrapped: no
 galera_sst_user: galera_rep

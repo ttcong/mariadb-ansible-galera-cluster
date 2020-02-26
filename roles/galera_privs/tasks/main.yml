@@ -8,6 +8,6 @@
   mysql_user:
     login_user: root
     name: "{{ galera_sst_user }}"
-    host: "localhost"
+    host: "%"
     password: "{{ galera_sst_pass }}"
     priv: "*.*:RELOAD,LOCK TABLES,REPLICATION CLIENT"

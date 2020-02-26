@@ -1,16 +1,78 @@
 ---
-- name: Add galera configuration
+#- name: Add galera configuration
+#  become: yes
+#  become_user: root
+#  template: src=server.cnf.j2 dest=/etc/mysql/mariadb.conf.d/galera.cnf
+#    owner=mysql group=mysql mode=0644
+#  notify: Restart MariaDB Galera cluster
+#
+#- name: Add galera configuration
+#  become: yes
+#  become_user: root
+#  template: src=server.cnf.j2 dest=/etc/mysql/conf.d/galera.cnf
+#    owner=mysql group=mysql mode=0644
+#  notify: Restart MariaDB Galera cluster
+
+#- name: Add galera configuration to mariadb.cnf
+#  become: yes
+#  become_user: root
+#  template: src=server.cnf.j2 dest=/etc/mysql/mariadb.cnf
+#    owner=mysql group=mysql mode=0644
+#  notify: Restart MariaDB Galera cluster
+
+- name: Add mysql configuration to my.cnf
   become: yes
   become_user: root
-  template: src=server.cnf.j2 dest=/etc/mysql/mariadb.conf.d/galera.cnf
+  template: src=server.cnf.j2 dest=/etc/mysql/my.cnf
     owner=mysql group=mysql mode=0644
-  notify: Restart MariaDB Galera cluster
 
-- name: Change owner mysql to mysql user
+- name: Add galera configuration to galera.cnf
+  become: yes
+  become_user: root
+  template: src=galera.cnf.j2 dest=/etc/mysql/conf.d/galera.cnf
+    owner=mysql group=mysql mode=0644
+
+- name: Remove my.cnf.fallback
+  file:
+    path: /etc/mysql/my.cnf.fallback
+    state: absent
+
+- name: Remove mariadb.cnf
+  file:
+    path: /etc/mysql/mariadb.cnf
+    state: absent
+
+- name: Remove mariadb.conf.d
+  file:
+    path: /etc/mysql/mariadb.conf.d
+    state: absent
+
+- name: Recursively change ownership of /etc/mysql to mysql user.
   become: yes
   become_user: root
   file:
     path: /etc/mysql
+    state: directory
+    recurse: yes
     owner: mysql
     group: mysql
-    mode: 0644
+
+- name: Recursively change ownership of /usr/lib/galera to mysql user.
+  become: yes
+  become_user: root
+  file:
+    path: /usr/lib/galera
+    state: directory
+    recurse: yes
+    owner: mysql
+    group: mysql
+
+- name: Recursively change ownership of /var/lib/mysql to mysql user.
+  become: yes
+  become_user: root
+  file:
+    path: /var/lib/mysql
+    state: directory
+    recurse: yes
+    owner: mysql
+    group: mysql
