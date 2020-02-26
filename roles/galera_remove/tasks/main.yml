@@ -1,0 +1,69 @@
+---
+- name: Stop MariaDB
+  systemd: name=mariadb state=stopped
+  async: 45
+  poll: 0
+
+- name: Remove MariaDB server packages
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=absent autoremove=yes
+  with_items:
+    - mariadb-client
+    - mariadb-server
+    - mariadb-client-core-{{ mariadb_release }}
+    - galera-3
+    - rsync
+
+- name: Remove mariadb-backup packages
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=absent autoremove=yes
+  with_items:
+    - mariadb-backup
+    - socat
+
+- name: Remove MySQL-python
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=absent autoremove=yes
+  with_items:
+    - python-mysqldb
+    - python-pymysql
+
+- name: Remove old mysql data_dir
+  become: yes
+  become_user: root
+  file:
+     path: /var/lib/mysql
+     state: absent
+
+
+- name: Remove old my.cnf
+  become: yes
+  become_user: root
+  file:
+     path: /etc/my.cnf
+     state: absent
+
+- name: Remove old mysql config_dir
+  become: yes
+  become_user: root
+  file:
+     path: /etc/mysql/
+     state: absent
+
+
+- name: Remove old systemd files
+  become: yes
+  become_user: root
+  file: path={{ item }} state=absent
+  with_items:
+    - /etc/systemd/system/mysql.service
+    - /etc/systemd/system/mysqld.service
+    - /etc/systemd/system/mariadb.service.d/
+    - /lib/systemd/system/mariadb.service
+    - /lib/systemd/system/mariadb@bootstrap.service.d/
+    - /etc/init.d/mysql
+
+
