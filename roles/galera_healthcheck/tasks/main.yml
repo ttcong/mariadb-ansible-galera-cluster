@@ -1,0 +1,41 @@
+---
+- name: Ensure MariaDB is running
+  systemd:
+    name: mariadb
+    state: started
+
+- name: Add Galera Healthcheck user
+  mysql_user:
+    login_user: root
+    name: "{{ galera_chk_user }}"
+    host: "%"
+    password: "{{ galera_chk_pass }}"
+    priv: "*.*:PROCESS"
+
+- name: Create ClusterCheck script
+  become: yes
+  become_user: root
+  template: src=clustercheck dest=/usr/bin/clustercheck
+    owner=root group=root mode=0744
+
+- name: Create mysqlchk.socket systemd
+  become: yes
+  become_user: root
+  template: src=mysqlchk.socket dest=/lib/systemd/system/mysqlchk.socket
+    owner=root group=root mode=744  
+
+- name: Create mysqlchk@.service systemd
+  become: yes
+  become_user: root
+  template: src=mmysqlchk@.service dest=/lib/systemd/system/mysqlchk@.service
+    owner=root group=root mode=744
+
+- name: Start & Enable mysqlchk.socket
+  systemd:
+    name: mysqlchk.socket
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+
+

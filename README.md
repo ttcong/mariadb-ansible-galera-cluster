@@ -4,7 +4,8 @@ configuration management for MariaDB Galera cluster
 ===================================================
 
 These roles allow you to automatically setup a MariaDB Galera cluster with sane
-default settings.
+default settings. 
+Inpsired by https://github.com/olafz/percona-clustercheck, your database proxy/lb (like HAProxy) can healhchecks galera cluster sync in every nodes by calling port 9200 (200: healthy)
 
 Tested in Ubuntu 16.04.
 

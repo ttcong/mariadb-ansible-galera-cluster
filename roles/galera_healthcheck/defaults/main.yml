@@ -1,0 +1,4 @@
+---
+galera_chk_user: clustercheckuser
+galera_chk_pass: clustercheckpassword
+

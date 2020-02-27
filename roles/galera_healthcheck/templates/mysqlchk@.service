@@ -1,0 +1,6 @@
+[Unit]
+Description=Galera Cluster node check service
+
+[Service]
+ExecStart=/usr/bin/clustercheck
+StandardInput=socket
