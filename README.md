@@ -1,6 +1,6 @@
 Continue in adfnis playbook
 
-configuration management for MariaDB Galera cluster
+ANSIBLE PLAYBOOK for MariaDB Galera cluster
 ===================================================
 
 These roles allow you to automatically setup a MariaDB Galera cluster with sane
