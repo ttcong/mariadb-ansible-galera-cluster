@@ -7,7 +7,7 @@
 
 # - name: Open Galera ports on firewall
 #   ufw: from_port={{ item }} permanent=true immediate=true state=enabled
-#   with_items:
+#   loop:
 #     - 4444/tcp
 #     - 4567/tcp
 #     - 4568/tcp

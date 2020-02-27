@@ -3,7 +3,7 @@
   become: yes
   become_user: root
   apt: name={{ item }} state=present update_cache=yes
-  with_items:
+  loop:
     - mariadb-client-{{ mariadb_release }}
     - mariadb-server-{{ mariadb_release }}
     - mariadb-client-core-{{ mariadb_release }}
@@ -14,15 +14,16 @@
   become: yes
   become_user: root
   apt: name={{ item }} state=present
-  with_items:
-    - mariadb-backup
+  loop:
+    - mariadb-backup-{{ mariadb_release }}
     - socat
+  when: ansible_facts['mariadb_release'] == "10.2"
 
 - name: Install MySQL-python
   become: yes
   become_user: root
   apt: name={{ item }} state=present
-  with_items:
+  loop:
     - python-mysqldb
     - python-pymysql
 
