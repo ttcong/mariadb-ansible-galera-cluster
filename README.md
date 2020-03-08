@@ -48,7 +48,7 @@ To run all further tasks to configure MariaDB Galera cluster and add the
 required user for the **S**tate **S**napshot **T**ransfer (SST) either skip the
 tasks tagged ``setup`` or run the tags ``config`` or ``auth`` directly.
 
-    ansible-playbook -i galera.hosts galera.yml --skip-tags setup
+    ansible-playbook -i galera.hosts galera.yml --tags auth,config
 
 Bootstrapping MariaDB Galera cluster
 ------------------------------------
@@ -71,6 +71,16 @@ that the configuration is applied one node at a time so that the will never lose
 quorum in the process of applying the new configuration.
 
     ansible-playbook -i galera.hosts galera_rolling_update.yml
+
+Remove MariaDB Galera cluster
+------------------------------------
+
+Remove the cluster can be done using a playbook dedicated for
+remove the MariaDB Galera cluster called galera_remove.yml
+
+    ansible-playbook -i galera.hosts galera_remove.yml
+
+Remove all packages and data_dir. 
 
 Vagrant support
 ---------------
