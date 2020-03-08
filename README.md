@@ -45,10 +45,9 @@ Configure MariaDB Galera cluster
 --------------------------------
 
 To run all further tasks to configure MariaDB Galera cluster and add the
-required user for the **S**tate **S**napshot **T**ransfer (SST) either skip the
-tasks tagged ``setup`` or run the tags ``config`` or ``auth`` directly.
+required user for the **S**tate **S**napshot **T**ransfer (SST) run the tags ``config``, ``auth`` and ``healthcheck`` directly.
 
-    ansible-playbook -i galera.hosts galera.yml --tags auth,config
+    ansible-playbook -i galera.hosts galera.yml --tags auth, config, healthcheck
 
 Bootstrapping MariaDB Galera cluster
 ------------------------------------
@@ -81,6 +80,23 @@ remove the MariaDB Galera cluster called galera_remove.yml
     ansible-playbook -i galera.hosts galera_remove.yml
 
 Remove all packages and data_dir. 
+
+Configure Database Proxy with HAProxy and Setup healthcheck
+------------------------------------
+Assume you already have a seperate HAProxy node and run role healthcheck.
+Below is a sample configuration for HAProxy. The point of this is that the application will be able to connect to localhost port 3307, so although we are using Galera Cluster with several nodes, the application will see this as a single MySQL server running on localhost.
+
+/etc/haproxy/haproxy.cfg
+
+...
+listen galera-cluster 0.0.0.0:3307
+  balance leastconn
+  option httpchk
+  mode tcp
+    server node1 1.2.3.4:3306 check port 9200 inter 5000 fastinter 2000 rise 2 fall 2
+    server node2 1.2.3.5:3306 check port 9200 inter 5000 fastinter 2000 rise 2 fall 2
+    server node3 1.2.3.6:3306 check port 9200 inter 5000 fastinter 2000 rise 2 fall 2 backup
+MySQL connectivity is checked via HTTP on port 9200. The clustercheck script is a simple shell script which accepts HTTP requests and checks MySQL on an incoming request. If the Galera Cluster node is ready to accept requests, it will respond with HTTP code 200 (OK), otherwise a HTTP error 503 (Service Unavailable) is returned.
 
 Vagrant support
 ---------------
